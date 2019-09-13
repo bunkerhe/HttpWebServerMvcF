@@ -9,14 +9,15 @@ using HttpWebServerMvcF.Domain;
 using HttpWebServerMvcF.Infrastructure;
 using Newtonsoft.Json;
 
-namespace HttpWebServer.DAL
+namespace HttpWebServerMvcF.DAL
 {
     class ParticipantRepository : IParticipantRepository
     {
-        private static string jsonFile = "json1.json";
+        private static string jsonFile = @"f:\Study\Homework\HttpWebServerMvcF\HttpWebServerMvcF\bin\json1.json";
 
         private ILogger Logger { get; set; }
         private static Database Data { get; set; }
+        private static List<Party> Parties { get; set; }
         private static List<Participant> Participants { get; set; }
 
         public ParticipantRepository(ILogger logger)
@@ -34,6 +35,7 @@ namespace HttpWebServer.DAL
             {
                 oldParticipant.IsAttend = participant.IsAttend;
                 oldParticipant.Reason = participant.Reason;
+                oldParticipant.PartyId = participant.PartyId;
                 Logger.Log(DateTime.Now + $" - обновление участника {oldParticipant.Name}.");
             }
             else
@@ -47,6 +49,11 @@ namespace HttpWebServer.DAL
         public List<Participant> List()
         {
             return Participants;
+        }
+
+        public List<Party> PartyList()
+        {
+            return Parties;
         }
 
         public void Delete(string name)

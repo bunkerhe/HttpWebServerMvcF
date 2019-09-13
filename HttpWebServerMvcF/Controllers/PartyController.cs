@@ -3,34 +3,44 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using HttpWebServerMvcF.BL;
 using HttpWebServerMvcF.Domain;
+using HttpWebServerMvcF.Models;
 
 namespace HttpWebServerMvcF.Controllers
 {
     public class PartyController : Controller
     {
-        [HttpGet]
-        public ActionResult Index(string title)
+        readonly IPartiesService _partiesService;
+        readonly IParticipantsService _participantsService;
+        public PartyController(IParticipantsService participantsService, IPartiesService partiesService)
         {
-            var test = title;
-            return View(new Party
+            _partiesService = partiesService;
+            _participantsService = participantsService;
+        }
+
+
+        [HttpGet]
+        public ActionResult Index(int partyId)
+        {
+            if (partyId == 0)
             {
-                Id = 1,
-                Date = DateTime.Now,
-                Title = "Helloween",
-                Location = "ИТ Академия"
-            });
+                return RedirectToAction("Parties", "Home");
+            }
+            return View(_partiesService.GetById(partyId));
         }
 
         [HttpPost]
-        public ActionResult Vote(int id, string name,  string attend, string reason)
+        public ActionResult Vote(int id, string name, string attend, string reason)
         {
-            return RedirectToAction("Participants", new {id = id});
+            _participantsService.Vote(name, attend, reason, id);
+            return RedirectToAction("Participants", new { partyId = id });
         }
 
-        public ActionResult Participants(int id)
+        public ActionResult Participants(int partyId)
         {
-            return View(new List<Participant>());
+            var viewModel = new PartyParticipantViewModel(_participantsService, _partiesService, partyId);
+            return View(viewModel);
         }
 
     }

@@ -1,20 +1,18 @@
-﻿@model List<HttpWebServerMvcF.Domain.Participant>
+﻿@model HttpWebServerMvcF.Models.PartyParticipantViewModel
 @{
-    ViewBag.Title = "Список участников";
+    ViewBag.Title = "Список участников:";
 }
 
 
 <p3>Список участников:</p3>
 
 <ol>
-    @foreach (var item in @Model)
+    @foreach (var item in @Model.Participants)
     {
-
+        <li>@item.Name</li>
     }
 </ol>
-@*<ol>
-        {{participants}}
-    </ol>*@
-<a href="/party/index">Вернуться.</a>
+
+<a href="/Party/Index/?partyId=@Model.Party.Id">Вернуться.</a>
 
 

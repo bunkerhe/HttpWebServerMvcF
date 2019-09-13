@@ -1,4 +1,4 @@
-﻿@model List<HttpWebServerMvcF.Domain.Party>
+﻿@model HttpWebServerMvcF.BL.IPartiesService
 @{
     ViewBag.Title = "Список вечеринок";
 }
@@ -7,10 +7,14 @@
 <h1>Список вечеринок:</h1>
 <br>
 <br>
-<ol> 
-    <li><a href="/Party/Index/Хеллуин"> Хеллуин </a></li>
+<ol>
+    @foreach (var item in @Model.List())
+    {
+        <li><a href="/Party/Index/?partyId=@item.Id"> @item.Title - состоится @item.Date </a></li>
+    }
 </ol>
-
-<a href="/Home/Index">  Вернуться.</a>
+<br>
+<br>
+<a href="/Home/Index"> Вернуться.</a>
 
 

@@ -8,14 +8,14 @@ using HttpWebServerMvcF.Domain;
 
 namespace HttpWebServerMvcF.BL
 {
-    interface IParticipantsService
+     public interface IParticipantsService
     {
-        event ParticipantsService.SaveEventHandler SaveParticipant;
-        void Vote(string name, bool isAttend, string reason, int partyId);
+        //event ParticipantsService.SaveEventHandler SaveParticipant;
+        void Vote(string name, string isAttend, string reason, int partyId);
 
         List<Participant> ListAll();
 
-        List<Participant> ListAttended();
-        List<Participant> ListMissed();
+        List<Participant> ListAttended(int partyId);
+        List<Participant> ListMissed(int partyId);
     }
 }

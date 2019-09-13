@@ -8,7 +8,7 @@ using HttpWebServerMvcF.Domain;
 
 namespace HttpWebServerMvcF.BL
 {
-    class ParticipantsService : IParticipantsService
+    public class ParticipantsService : IParticipantsService
     {
         
         public delegate void SaveEventHandler();
@@ -19,8 +19,9 @@ namespace HttpWebServerMvcF.BL
             Repository = repository;
         }
 
-        public void Vote(string name, bool isAttend, string reason, int partyId)
+        public void Vote(string name, string attend, string reason, int partyId)
         {
+            var isAttend = attend == "on";
             var participant = new Participant(name, isAttend, reason, partyId);
             Repository.Save(participant);
             SaveParticipant?.Invoke();
@@ -32,14 +33,14 @@ namespace HttpWebServerMvcF.BL
             return Repository.List();
         }
 
-        public List<Participant> ListAttended()
+        public List<Participant> ListAttended(int partyId)
         {
-            return Repository.List().Where(x => x.IsAttend).ToList();
+            return Repository.List().Where(x => x.IsAttend && x.PartyId == partyId).ToList();
         }
 
-        public List<Participant> ListMissed()
+        public List<Participant> ListMissed(int partyId)
         {
-            return Repository.List().Where(x => !x.IsAttend).ToList();
+            return Repository.List().Where(x => !x.IsAttend && x.PartyId == partyId).ToList();
         }
     }
 }

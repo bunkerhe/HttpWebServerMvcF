@@ -1,13 +1,12 @@
-﻿@using HttpWebServerMvcF.Domain
-@model HttpWebServerMvcF.Domain.Party
+﻿@model HttpWebServerMvcF.Domain.Party
 @{
-    ViewBag.Title = $"Party {Model.Title}";
+    ViewBag.Title = $"Вечеринка {Model.Title}";
 }
 
 <body>
-    <p>Приглашаем всех на тематическую вечеринку @Model.Title!</p>
+    <p>Приглашаем всех на @Model.Title, которое состоиться @Model.Date.Date.ToShortDateString() в @Model.Location в @Model.Date.TimeOfDay!</p>
 
-    <form action="/party/vote/@Model.Id" method="POST">
+    <form action="/party/vote/?id=@Model.Id" method="POST">
         Имя:<br> <input type="text" name="name"><br><br>
         Иду:<br> <input type="checkbox" name="attend"><br><br>
         Коментарий:<br> <input type="text" name="reason"><br><br>
@@ -15,16 +14,10 @@
     </form>
     <br>
     <br>
-    <a href="/party/participants/@Model.Id">Список гостей.</a>
+    <a href="/party/participants/?partyId=@Model.Id">Список гостей.</a>
     <br>
     <br>
-    @*<script>
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'participants.html', false);
-        xhr.send();
-        if (xhr.status == 200) {
-            var test = xhr.responseText.replace('<a href="index.html">Вернуться.</a>', "<br>");
-            document.write(test);
-        }
-    </script>*@
+    <a href="/Home/Parties">К списку вечеринок.</a>
+    <br>
+    <br>
 </body>

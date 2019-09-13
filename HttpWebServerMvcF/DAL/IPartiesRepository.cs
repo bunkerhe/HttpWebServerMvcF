@@ -7,11 +7,8 @@ using HttpWebServerMvcF.Domain;
 
 namespace HttpWebServerMvcF.DAL
 {
-    public interface IParticipantRepository
+    public interface IPartiesRepository
     {
-        void Save(Participant participant);
-        List<Participant> List();
-        void Delete(string name);
-        Participant Get(string name);
+        List<Party> List();
     }
 }
